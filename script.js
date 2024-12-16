@@ -42,6 +42,7 @@ for (const suit in Suits) {
     }
 }
 
-for (card in deck) {
-    console.log(card);
+// Display all cards in the deck
+for (const card of deck) {
+    card.displayCard(); 
 }
