@@ -1,12 +1,15 @@
 class Card {
-    constructor(suit, rank){
+    constructor(suit, rank, value){
         this.suit = suit;
         this.rank = rank;
+        this.value = Array.isArray(value) ? value[0] : value; 
+        // Default to first value for Ace
     }
 
     displayCard() {
         console.log(`Suit: ${this.suit}`);
         console.log(`Rank: ${this.rank}`);
+        console.log(`Value: ${this.value}`)
     }
 }
 
@@ -33,16 +36,77 @@ const Ranks = {
     Ace: "1",
 }
 
+const Values = {
+    r2: "2", 
+    r3: "3",
+    r4: "4",
+    r5: "5", 
+    r6: "6",
+    r7: "7",
+    r8: "8",
+    r9: "9",
+    r10: "10",
+    Jack: "11",
+    Queen: "12",
+    King: "13",
+    Ace: ["1", "11"],
+}
+
 const deck = [];
 
 for (const suit in Suits) {
     for (const rank in Ranks) {
-        const card = new Card(Suits[suit], Ranks[rank]);
+        const card = new Card(Suits[suit], Ranks[rank], Values[rank]);
         deck.push(card);
-    }
+        }
 }
+
 
 // Display all cards in the deck
 for (const card of deck) {
     card.displayCard(); 
 }
+
+
+class Player {
+    constructor(name) {
+        this.playerName = name;
+        this.playerCards = [];
+    }
+
+    addCard(card) {
+        this.playerCards.push(card);
+    }
+
+    clearHand() {
+        this.playerCards = [];
+    }
+
+    getHandSize() {
+        return this.playerCards.length;
+    }
+
+    displayHand() {
+        console.log(`${this.playerName}'s hand:`);
+        this.playerCards.forEach(card => card.displayCard());
+    }
+}
+
+function dealCard(deck, players, cardsPerPlayer) {
+    //shuffle deck
+    const shuffledDeck = [...deck].sort(() => 0.5 - Math.random());
+    //deal card to each player
+    for (let i = 0; i < cardsPerPlayer; i++) {
+        for (const player of players) {
+            if (shuffledDeck.length > 0) {
+                player.addCard(shuffledDeck.shift());
+            }
+        }
+    }
+    return { //return players and the
+        players: players,
+        remainingDeck: shuffledDeck
+    };
+}
+
+

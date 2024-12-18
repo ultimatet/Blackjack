@@ -1,0 +1,7 @@
+Black Jack game
+- need a deck of 52 cards
+- up to 5 players
+- deal cards
+- each player 3 card at 1st
+- up to 5 cards
+- min 16 max 24 point
