@@ -62,10 +62,10 @@ for (const suit in Suits) {
 }
 
 
-// Display all cards in the deck
-for (const card of deck) {
-    card.displayCard(); 
-}
+// // Display all cards in the deck
+// for (const card of deck) {
+//     card.displayCard(); 
+// }
 
 
 class Player {
@@ -100,6 +100,7 @@ function dealCard(deck, players, cardsPerPlayer) {
         for (const player of players) {
             if (shuffledDeck.length > 0) {
                 player.addCard(shuffledDeck.shift());
+                console.log(`${cardsPerPlayer} have been delt`)
             }
         }
     }
@@ -110,3 +111,21 @@ function dealCard(deck, players, cardsPerPlayer) {
 }
 
 
+
+
+
+const player1 = new Player("enzo");
+const player2 = new Player("hieu");
+const player3 = new Player("tml");
+
+const players = [player1, player2, player3]
+//show hand
+// player3.displayHand();
+
+
+currentPlayIndex = 0;
+
+function nextTurn() {
+    currentPlayIndex = (currentPlayIndex + 1) % players.length;
+    console.log(`Currently player ${currentPlayIndex}'s turn`)
+}
