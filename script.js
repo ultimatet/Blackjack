@@ -44,6 +44,9 @@ class Card {
         this.value = Array.isArray(value) ? value[0] : value; 
         // Default to first value for Ace
     }
+    isAce() {
+        return this.rank === "1";
+    }
 
     displayCard() {
         console.log(`Suit: ${this.suit}`);
@@ -103,9 +106,8 @@ class Game {
         // Track game state: 'ready', 'playing', or 'ended'
         this.gameState = 'ready';
         this.deck = this.createInitialDeck(); // We'll create the deck when game is initialized
-        this.playedCards = [];
     }
-
+    
     createInitialDeck() {
         const newDeck = [];
         // Using your existing Suits, Ranks, and Values objects
@@ -127,7 +129,7 @@ class Game {
 
         // Deal cards using your existing dealCard function
         // Note that dealCard already includes shuffling
-        const gameSetup = dealCard(this.deck, this.players, 3);
+        const gameSetup = dealCard(this.deck, this.players, 2);
 
         // Update our deck with the remaining cards
         this.deck = gameSetup.remainingDeck;
@@ -137,6 +139,7 @@ class Game {
         
         console.log("Game started!");
         console.log(`It's ${this.getCurrentPlayer().playerName}'s turn`);
+        this.calPoint();
     }
 
     getCurrentPlayer() {
@@ -176,6 +179,8 @@ class Game {
             this.gameState = 'ended';
         }
 
+        this.calPoint();
+
         if (currentPlayer.playerCards.length >= 5) { 
             this.nextTurn();
         }
@@ -191,9 +196,39 @@ class Game {
             console.log('---');
         });
     }
+
+    calPoint() {
+        const currentPlayer = this.getCurrentPlayer();
+        let totalPoint = 0;
+        let aceCount = 0;
+        for (const card of currentPlayer.playerCards) {
+            if (card.isAce()) {
+                aceCount++;
+            } else {
+                totalPoint += Number(card.value);
+            }
+        for (let i = 0; i < aceCount; i++) {
+            if (totalPoint + 11 <= 21) {
+                totalPoint += 11;
+            } else {
+                totalPoint += 1;
+            }
+        }
+        if (totalPoint > 21) {
+            console.log("Bust!");
+            
+        } else if (totalPoint === 21) {
+            console.log("Perfect 21!");
+            this.nextTurn();
+        }
+        
+        }
+        console.log(`Total point is: ${totalPoint}`)
+    }
+    
 }
 
-
+//TODO:  add player btn, use deal card btn to dea. 
 
 
 // Example:
@@ -204,4 +239,5 @@ const player3 = new Player("tml");
 const players = [player1, player2, player3]
 const game = new Game(players);
 game.startGame();
+game.displayGameState;
 
