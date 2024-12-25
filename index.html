@@ -7,11 +7,19 @@
     <title>BlackJack</title>
 </head>
 <body>
-    <button onclick="dealCard(newDeck, players, 3)">Deal card</button> <br> <br>
+    <button onclick="dealCard(game.deck, players, 2)">Deal card</button> <br> <br>
     <button onclick="game.drawCard()">Draw card</button> <br><br>
     <button onclick="game.nextTurn()">Next turn</button>
+
+    <div class="game-container">
+        <div class="game-status" id="gameStatus"></div>
+        <div class="controls">
+            <button id="drawCard">Draw Card</button>
+            <button id="nextTurn">Next Turn</button>
+        </div>
+        <div id="playersContainer"></div>
+    </div>  
     
- 
     <script src="script.js"></script>
 </body>
 </html>

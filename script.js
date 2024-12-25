@@ -92,7 +92,7 @@ function dealCard(deck, players, cardsPerPlayer) {
             }
         }
     }
-    return { //return players and the
+    return { 
         players: players,
         remainingDeck: shuffledDeck
     };
@@ -103,14 +103,12 @@ class Game {
     constructor(players) {
         this.players = players;
         this.currentPlayerIndex = 0;
-        // Track game state: 'ready', 'playing', or 'ended'
         this.gameState = 'ready';
         this.deck = this.createInitialDeck(); // We'll create the deck when game is initialized
     }
     
     createInitialDeck() {
         const newDeck = [];
-        // Using your existing Suits, Ranks, and Values objects
         for (const suit in Suits) {
             for (const rank in Ranks) {
                 const card = new Card(Suits[suit], Ranks[rank], Values[rank]);
@@ -127,14 +125,6 @@ class Game {
             return;
         }
 
-        // Deal cards using your existing dealCard function
-        // Note that dealCard already includes shuffling
-        const gameSetup = dealCard(this.deck, this.players, 2);
-
-        // Update our deck with the remaining cards
-        this.deck = gameSetup.remainingDeck;
-        
-        // Change game state to playing
         this.gameState = 'playing';
         
         console.log("Game started!");
@@ -228,7 +218,40 @@ class Game {
     
 }
 
-//TODO:  add player btn, use deal card btn to dea. 
+class gameUI {
+    constructor(game) {
+        this.game = game;
+        this.initializeUI();
+    }
+
+    initializeUI() {
+        this.drawBtn = document.getElementById("drawCard");
+        this.nextTurnBtn = document.getElementById("nextTurn");
+        this.playersContainer = document.getElementById('playersContainer');
+        this.gameStatus = document.getElementById('gameStatus');
+
+        this.drawBtn.addEventListener('click', () => {
+            game.drawCard();
+            this.updateUI();
+        });
+
+        this.nextTurnBtn.addEventListener('click', () => {
+            game.nextTurn();
+            this.updateUI();
+        });
+
+        this.updateUI();
+    }
+
+    updateUI() {
+        // Update game status
+        this.updateGameStatus();
+        // Update players' hands
+        this.updatePlayersHands();
+    }
+}
+
+//TODO:  add player btn
 
 
 // Example:
